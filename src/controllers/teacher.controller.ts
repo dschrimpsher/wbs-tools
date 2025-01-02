@@ -1,9 +1,8 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { TeacherService } from '../services/teacher.service';
-import { Request } from 'express';
 import { TeacherDto } from "../types/teacher.dto";
 
-@Controller("/teacher")
+@Controller("/teachers")
 export class TeacherController {
   constructor(private readonly teacherService: TeacherService) {}
 

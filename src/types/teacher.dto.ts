@@ -1,4 +1,9 @@
 
 export interface TeacherDto {
-  name: string;
+  TeacherRecNo: number;
+  TeacherWBSID: string;
+  TeacherFirstName: string;
+  TeacherLastName: string;
+  TeacherPictureName?: string;
+  TeacherPictureData?: string;
 }

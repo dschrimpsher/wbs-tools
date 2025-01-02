@@ -1,0 +1,32 @@
+export interface StudentDto {
+  StudentAge: number;
+  StudentBaptismType: string;
+  StudentBibleIssuedDate: string;
+  StudentBirthdate: string;
+  StudentChurchName: string;
+  StudentCity: string;
+  StudentContactsRecNo: number;
+  StudentCountriesRecNo: number;
+  StudentCountry: string;
+  StudentEmailAddress: string;
+  StudentFirstName: string;
+  StudentGender: string;
+  StudentHasBeenBaptized: string;
+  StudentHasBible: string;
+  StudentID: string;
+  StudentLastName: string;
+  StudentMaritalStatus: string;
+  StudentNotes: string;
+  StudentOccupation: string;
+  StudentPhone1: string;
+  StudentPhone2: string;
+  StudentPostalAddress: string;
+  StudentRecNo: number;
+  StudentReligion: string;
+  StudentRequestedBaptism: string;
+  StudentState: string;
+  StudentStreetAddress: string;
+  StudentTeachersRecNo: number;
+  StudentWBSBefore: string;
+  StudentWBSID: string;
+}
