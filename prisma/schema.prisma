@@ -1,0 +1,315 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Answers {
+  AnswerRecNo         Int    @id @default(autoincrement())
+  AnswerLessonsRecNo  Int?
+  AnswerQuestionNo    String @db.VarChar(5)
+  AnswerCorrectAnswer String @db.VarChar(1)
+
+  @@index([AnswerLessonsRecNo], map: "FK_LessonsRecNo_idx")
+}
+
+model Attachments {
+  AttachmentRecNo         Int                             @id @unique(map: "AttachmentRecNo_UNIQUE") @default(autoincrement())
+  AttachmentStudentsRecNo Int
+  AttachmentName          String                          @db.VarChar(255)
+  AttachmentData          Bytes                           @db.MediumBlob
+  AttachmentType          Attachments_AttachmentType?     @default(Graded_Lesson)
+  AttachmentCreated       DateTime                        @db.DateTime(0)
+  AttachmentSentToContact DateTime?                       @db.DateTime(0)
+  AttachmentContactsRecNo Int
+  AttachmentSelected      Attachments_AttachmentSelected? @default(False)
+  Students                Students                        @relation(fields: [AttachmentStudentsRecNo], references: [StudentRecNo], onDelete: NoAction, onUpdate: NoAction, map: "fk_studentrecno")
+
+  @@index([AttachmentStudentsRecNo], map: "StudentRecNo_idx")
+}
+
+model Comments {
+  CommentRecNo   Int    @id @default(autoincrement())
+  CommentTag     String @db.VarChar(45)
+  CommentContent String @db.Text
+
+  @@index([CommentTag], map: "Tags")
+}
+
+model CommentsBWS {
+  CommentRecNo   Int    @id @default(autoincrement())
+  CommentTag     String @db.VarChar(45)
+  CommentContent String @db.Text
+
+  @@index([CommentTag], map: "Tags")
+}
+
+model CommentsBWS50Q {
+  CommentRecNo   Int    @id @default(autoincrement())
+  CommentTag     String @db.VarChar(45)
+  CommentContent String @db.Text
+
+  @@index([CommentTag], map: "Tags")
+}
+
+model CommentsFOG {
+  CommentRecNo   Int    @id @default(autoincrement())
+  CommentTag     String @db.VarChar(45)
+  CommentContent String @db.Text
+
+  @@index([CommentTag], map: "Tags")
+}
+
+model CommentsFOG50Q {
+  CommentRecNo   Int    @id @default(autoincrement())
+  CommentTag     String @db.VarChar(45)
+  CommentContent String @db.Text
+
+  @@index([CommentTag], map: "Tags")
+}
+
+model CommentsGHS {
+  CommentRecNo   Int    @id @default(autoincrement())
+  CommentTag     String @db.VarChar(45)
+  CommentContent String @db.Text
+
+  @@index([CommentTag], map: "Tags")
+}
+
+model CommentsGHS50Q {
+  CommentRecNo   Int    @id @default(autoincrement())
+  CommentTag     String @db.VarChar(45)
+  CommentContent String @db.Text
+
+  @@index([CommentTag], map: "Tags")
+}
+
+model CommentsIntro {
+  CommentRecNo   Int    @id @default(autoincrement())
+  CommentTag     String @db.VarChar(45)
+  CommentContent String @db.Text
+
+  @@index([CommentTag], map: "Tags")
+}
+
+model CommentsKJ {
+  CommentRecNo   Int    @id @default(autoincrement())
+  CommentTag     String @db.VarChar(45)
+  CommentContent String @db.Text
+
+  @@index([CommentTag], map: "Tags")
+}
+
+model CommentsKJ50Q {
+  CommentRecNo   Int    @id @default(autoincrement())
+  CommentTag     String @db.VarChar(45)
+  CommentContent String @db.Text
+
+  @@index([CommentTag], map: "Tags")
+}
+
+model CommentsLLL {
+  CommentRecNo   Int    @id @default(autoincrement())
+  CommentTag     String @db.VarChar(45)
+  CommentContent String @db.Text
+
+  @@index([CommentTag], map: "Tags")
+}
+
+model CommentsLLL50Q {
+  CommentRecNo   Int    @id @default(autoincrement())
+  CommentTag     String @db.VarChar(45)
+  CommentContent String @db.Text
+
+  @@index([CommentTag], map: "Tags")
+}
+
+model CommentsTIGN {
+  CommentRecNo   Int    @id @default(autoincrement())
+  CommentTag     String @db.VarChar(45)
+  CommentContent String @db.Text
+
+  @@index([CommentTag], map: "Tags")
+}
+
+model CommentsTIGN50Q {
+  CommentRecNo   Int    @id @default(autoincrement())
+  CommentTag     String @db.VarChar(45)
+  CommentContent String @db.Text
+
+  @@index([CommentTag], map: "Tags")
+}
+
+model Contacts {
+  ContactRecNo     Int     @id @unique(map: "Contacts_RecNo_UNIQUE") @default(autoincrement())
+  ContactWBSID     String  @db.VarChar(10)
+  ContactFirstName String  @db.VarChar(32)
+  ContactLastName  String  @db.VarChar(17)
+  ContactPrefix    String  @default("") @db.VarChar(4)
+  Users            Users[]
+
+  @@index([ContactWBSID], map: "FK_Contacts_WBSRecNo_idx")
+}
+
+model Countries {
+  CountriesRecNo Int     @id @unique(map: "CountriesRecNo_UNIQUE") @default(autoincrement())
+  CountryName    String? @unique(map: "CountryName_UNIQUE") @default("Null") @db.VarChar(45)
+}
+
+model Grades {
+  GradeRecNo         Int       @id @default(autoincrement())
+  GradeDateGraded    DateTime? @db.Date
+  GradeLessonsRecNo  Int?
+  GradeScore         Int?
+  GradeStudentsRecNo Int?
+  GradeDateSent      DateTime  @default(dbgenerated("'0001-01-01'")) @db.Date
+  GradeDateReceived  DateTime  @default(dbgenerated("'0001-01-01'")) @db.Date
+  GradeComments      String    @db.Text
+  Lessons            Lessons?  @relation(fields: [GradeLessonsRecNo], references: [LessonRecNo], onDelete: NoAction, onUpdate: NoAction, map: "fk_lessons")
+  Students           Students? @relation(fields: [GradeStudentsRecNo], references: [StudentRecNo], onDelete: NoAction, onUpdate: NoAction, map: "fk_students")
+
+  @@unique([GradeLessonsRecNo, GradeStudentsRecNo], map: "idx_students_lessons")
+  @@index([GradeLessonsRecNo], map: "fk_lessons_idx")
+  @@index([GradeStudentsRecNo], map: "fk_students_idx")
+}
+
+model Lessons {
+  LessonRecNo     Int      @id @unique(map: "RecNo_UNIQUE")
+  LessonName      String   @unique(map: "Name_UNIQUE") @db.VarChar(30)
+  LessonShortName String   @unique(map: "ShortName_UNIQUE") @db.VarChar(12)
+  Grades          Grades[]
+}
+
+model Religions {
+  ReligionRecNo Int     @id @unique(map: "ReligionRecNo_UNIQUE") @default(autoincrement())
+  ReligionName  String? @default("Null") @db.VarChar(45)
+}
+
+model Students {
+  StudentRecNo            Int                               @id @default(autoincrement())
+  StudentID               String?                           @db.VarChar(10)
+  StudentWBSID            String?                           @default("AL-025") @db.VarChar(10)
+  StudentTeachersRecNo    Int?                              @default(1)
+  StudentContactsRecNo    Int?                              @default(1)
+  StudentFirstName        String                            @default("") @db.VarChar(32)
+  StudentLastName         String                            @default("") @db.VarChar(17)
+  StudentAge              Int?                              @default(0)
+  StudentBirthdate        DateTime?                         @db.Date
+  StudentGender           String                            @default("") @db.Char(1)
+  StudentMaritalStatus    Students_StudentMaritalStatus?
+  StudentReligion         String?                           @db.VarChar(45)
+  StudentChurchName       String?                           @db.VarChar(45)
+  StudentWBSBefore        Students_StudentWBSBefore?
+  StudentCountry          String?                           @db.VarChar(45)
+  StudentState            String?                           @db.VarChar(45)
+  StudentCity             String?                           @db.VarChar(45)
+  StudentPostalAddress    String?                           @db.VarChar(255)
+  StudentEmailAddress     String?                           @db.VarChar(255)
+  StudentPhone1           String?                           @db.VarChar(45)
+  StudentPhone2           String?                           @db.VarChar(45)
+  StudentStreetAddress    String?                           @db.VarChar(255)
+  StudentOccupation       String?                           @db.VarChar(45)
+  StudentHasBeenBaptized  Students_StudentHasBeenBaptized?
+  StudentBaptismType      Students_StudentBaptismType?
+  StudentRequestedBaptism Students_StudentRequestedBaptism?
+  StudentHasBible         Students_StudentHasBible?
+  StudentBibleIssuedDate  DateTime?                         @db.Date
+  StudentNotes            String?                           @db.LongText
+  StudentCountriesRecNo   Int?                              @default(1)
+  Attachments             Attachments[]
+  Grades                  Grades[]
+}
+
+model Teachers {
+  TeacherRecNo       Int     @id @unique(map: "Teachers_RecNo_UNIQUE") @default(autoincrement())
+  TeacherWBSID       String  @db.VarChar(10)
+  TeacherFirstName   String  @db.VarChar(32)
+  TeacherLastName    String  @db.VarChar(17)
+  TeacherPictureName String? @db.VarChar(255)
+  TeacherPictureData Bytes?  @db.Blob
+  Users              Users[]
+
+  @@index([TeacherWBSID], map: "FK_Teachers_WBSRecNo_idx")
+}
+
+model UserLevels {
+  UserLevelRecNo Int     @id @unique(map: "UserLevelRecNo_UNIQUE") @default(autoincrement())
+  UserLevelName  String? @unique(map: "UserLevelName_UNIQUE") @db.VarChar(45)
+  Users          Users[]
+}
+
+model Users {
+  UserRecNo        Int         @id @unique(map: "UserRecNo_UNIQUE") @default(autoincrement())
+  UserName         String?     @db.VarChar(45)
+  UserLevel        Int?        @default(1)
+  UserTeacherRecNo Int?        @default(1)
+  UserContactRecNo Int?        @default(1)
+  Contacts         Contacts?   @relation(fields: [UserContactRecNo], references: [ContactRecNo], onDelete: NoAction, onUpdate: NoAction, map: "fkContactRecNo")
+  Teachers         Teachers?   @relation(fields: [UserTeacherRecNo], references: [TeacherRecNo], onDelete: NoAction, onUpdate: NoAction, map: "fkTeacherRecNo")
+  UserLevels       UserLevels? @relation(fields: [UserLevel], references: [UserLevelRecNo], onDelete: NoAction, onUpdate: NoAction, map: "fkUserLevel")
+
+  @@index([UserLevel], map: "UserLevel_idx")
+  @@index([UserContactRecNo], map: "fkContactRecNo_idx")
+  @@index([UserTeacherRecNo], map: "fkTeacherRecNo_idx")
+}
+
+model teacher {
+  TeacherRecNo       Int    @id @default(autoincrement())
+  TeacherWBSID       String @db.VarChar(255)
+  TeacherFirstName   String @db.VarChar(255)
+  TeacherLastName    String @db.VarChar(255)
+  TeacherPictureName String @db.VarChar(255)
+  TeacherPictureData String @db.VarChar(255)
+}
+
+enum Attachments_AttachmentType {
+  EMPTY_ENUM_VALUE @map("")
+  Graded_Lesson    @map("Graded Lesson")
+  Answer_Sheet     @map("Answer Sheet")
+}
+
+enum Attachments_AttachmentSelected {
+  True
+  False
+}
+
+enum Students_StudentMaritalStatus {
+  EMPTY_ENUM_VALUE @map("")
+  Single
+  Married
+}
+
+enum Students_StudentWBSBefore {
+  EMPTY_ENUM_VALUE @map("")
+  Yes
+  No
+}
+
+enum Students_StudentHasBeenBaptized {
+  EMPTY_ENUM_VALUE @map("")
+  Yes
+  No
+}
+
+enum Students_StudentBaptismType {
+  EMPTY_ENUM_VALUE @map("")
+  Immersed
+  Sprinkled
+  Poured
+  Other
+}
+
+enum Students_StudentRequestedBaptism {
+  EMPTY_ENUM_VALUE @map("")
+  Yes
+  No
+}
+
+enum Students_StudentHasBible {
+  EMPTY_ENUM_VALUE @map("")
+  Yes
+  No
+}
