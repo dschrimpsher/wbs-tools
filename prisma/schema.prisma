@@ -166,8 +166,8 @@ model Grades {
   GradeLessonsRecNo  Int?
   GradeScore         Int?
   GradeStudentsRecNo Int?
-  GradeDateSent      DateTime  @default(dbgenerated("'0001-01-01'")) @db.Date
-  GradeDateReceived  DateTime  @default(dbgenerated("'0001-01-01'")) @db.Date
+  GradeDateSent      DateTime  @default(dbgenerated("CURRENT_DATE")) @db.Date
+  GradeDateReceived  DateTime  @default(dbgenerated("CURRENT_DATE")) @db.Date
   GradeComments      String    @db.Text
   Lessons            Lessons?  @relation(fields: [GradeLessonsRecNo], references: [LessonRecNo], onDelete: NoAction, onUpdate: NoAction, map: "fk_lessons")
   Students           Students? @relation(fields: [GradeStudentsRecNo], references: [StudentRecNo], onDelete: NoAction, onUpdate: NoAction, map: "fk_students")
